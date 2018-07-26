@@ -35,7 +35,7 @@ Extreme weather data has been downloaded from INVENTAR database (spatial-level).
 
 # Normalized data
 
-All abve data is normalized following the 
+All abve data is normalized following the normalization between zero and one. 
 
 
   
