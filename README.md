@@ -35,7 +35,9 @@ Extreme weather data has been downloaded from INVENTAR database (spatial-level).
 
 # Normalized data
 
-All abve data is normalized following the normalization between zero and one. 
+All the above data is normalized following the normalization function scaling values between zero and one: 
+
+![](https://latex.codecogs.com/gif.latex?z_i%20%3D%20%5Cfrac%7Bx_i%20-%20min%28x%29%7D%7Bmax%28x%29%20-%20min%28x%29%7D)
 
 
   
