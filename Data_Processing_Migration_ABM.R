@@ -44,7 +44,7 @@ data_pop_natural_rate %<>%
   mutate(Natural06 = (Natural05 + Natural07)/2) %>% 
   select(order(colnames(.)))
 # Export data and set 4 provinces in SE region to 0
-export_pop_natural_rate <- as.data.frame(data_pop_natural_rate)
+export_pop_natural_rate <- as.tibble(data_pop_natural_rate)
 export_pop_natural_rate[c(1:4),] = 0
 
 # SOCIO-ECONOMIC DATA -----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ data_poverty %<>%
   select(order(colnames(.)))
 
 # Normalize Poverty Data
-export_poverty <- as.data.frame(sapply(data_poverty, normalize_reverse))
+export_poverty <- as.tibble(sapply(data_poverty, normalize_reverse))
 colnames(export_poverty) = colnames(data_poverty)
 
 # Employment --------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ for (i in 1:nrow(data_employment_trained_worker)){
 colnames(data_employment) = colnames(data_employment_trained_worker)
 
 # Normalize of employment data
-export_employment <- as.data.frame(sapply(data_employment, normalize))  
+export_employment <- as.tibble(sapply(data_employment, normalize))  
 colnames(export_employment) = colnames(data_employment)
 
 # Education ---------------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ colnames(data_education_rate_student_pop) = colnames(data_education_no_students)
 data_education <- data_education_rate_pupil_pop * data_education_rate_student_pop
 
 # Normalize of education data
-export_education <- as.data.frame(sapply(data_education, normalize))
+export_education <- as.tibble(sapply(data_education, normalize))
 
 # Update name is export_education data
 colnames(export_education) <- data_education_no_students %>% 
@@ -205,7 +205,7 @@ colnames(data_health) <- data_health_rate_hos_pop %>%
   str_replace_all(c("Hos" = "Pub"))
 
 # Normalize of health data
-export_health = as.data.frame(sapply(data_health, normalize))
+export_health = as.tibble(sapply(data_health, normalize))
 colnames(export_health) = colnames(data_health)
 
 # DISTANCE ----------------------------------------------------------------------------------------
@@ -375,7 +375,7 @@ data_inc_q1 %<>% mutate(Inc1st04 = update_income(1,1),
 
 # Normalize data 
 data_inc_q1[1] = NULL
-export_inc_q1 <- as.data.frame(sapply(data_inc_q1, normalize))
+export_inc_q1 <- as.tibble(sapply(data_inc_q1, normalize))
 colnames(export_inc_q1) = colnames(data_inc_q1)
 
 # Income quintile 2 -------------------------------------------------------------------------------
@@ -392,7 +392,7 @@ data_inc_q2 %<>% mutate(Inc2nd04 = update_income(2,1),
 
 # Normalize data 
 data_inc_q2[1] = NULL
-export_inc_q2 <- as.data.frame(sapply(data_inc_q2, normalize))
+export_inc_q2 <- as.tibble(sapply(data_inc_q2, normalize))
 colnames(export_inc_q2) = colnames(data_inc_q2)
 
 # Income quintile 3 -------------------------------------------------------------------------------
@@ -409,7 +409,7 @@ data_inc_q3 %<>% mutate(Inc3rd04 = update_income(3,1),
 
 # Normalize data 
 data_inc_q3[1] = NULL
-export_inc_q3 <- as.data.frame(sapply(data_inc_q3, normalize))
+export_inc_q3 <- as.tibble(sapply(data_inc_q3, normalize))
 colnames(export_inc_q3) = colnames(data_inc_q3)
 
 # Income quintile 4 -------------------------------------------------------------------------------
@@ -426,7 +426,7 @@ data_inc_q4 %<>% mutate(Inc4th04 = update_income(4,1),
 
 # Normalize data 
 data_inc_q4[1] = NULL
-export_inc_q4 <- as.data.frame(sapply(data_inc_q4, normalize))
+export_inc_q4 <- as.tibble(sapply(data_inc_q4, normalize))
 colnames(export_inc_q4) = colnames(data_inc_q4)
 
 # Income quintile 5 -------------------------------------------------------------------------------
@@ -443,7 +443,7 @@ data_inc_q5 %<>% mutate(Inc5th04 = update_income(5,1),
 
 # Normalize data 
 data_inc_q5[1] = NULL
-export_inc_q5 <- as.data.frame(sapply(data_inc_q5, normalize))
+export_inc_q5 <- as.tibble(sapply(data_inc_q5, normalize))
 colnames(export_inc_q5) = colnames(data_inc_q5)
 
 # EXPENDITURE QUINTILES ---------------------------------------------------------------------------
@@ -459,7 +459,7 @@ colnames(data_exp_q1) <- data_exp_q1 %>%
   colnames() %>% 
   str_replace_all(c("Expenditure.Quintile.1.20" = "Exp1st"))
 
-export_exp_q1 = as.data.frame(sapply(data_exp_q1, normalize))
+export_exp_q1 = as.tibble(sapply(data_exp_q1, normalize))
 colnames(export_exp_q1) = colnames(data_exp_q1)
 
 # Expenditure quintile 2 --------------------------------------------------------------------------
@@ -469,7 +469,7 @@ colnames(data_exp_q2) <- data_exp_q2 %>%
   colnames() %>% 
   str_replace_all(c("Expenditure.Quintile.2.20" = "Exp2nd"))
 
-export_exp_q2 = as.data.frame(sapply(data_exp_q2, normalize))
+export_exp_q2 = as.tibble(sapply(data_exp_q2, normalize))
 colnames(export_exp_q2) = colnames(data_exp_q2)
 
 # Expenditure quintile 3 --------------------------------------------------------------------------
@@ -479,7 +479,7 @@ colnames(data_exp_q3) <- data_exp_q3 %>%
   colnames() %>% 
   str_replace_all(c("Expenditure.Quintile.3.20" = "Exp3rd"))
 
-export_exp_q3 = as.data.frame(sapply(data_exp_q3, normalize))
+export_exp_q3 = as.tibble(sapply(data_exp_q3, normalize))
 colnames(export_exp_q3) = colnames(data_exp_q3)
 
 # Expenditure quintile 4 --------------------------------------------------------------------------
@@ -489,7 +489,7 @@ colnames(data_exp_q4) <- data_exp_q4 %>%
   colnames() %>% 
   str_replace_all(c("Expenditure.Quintile.4.20" = "Exp4th"))
 
-export_exp_q4 = as.data.frame(sapply(data_exp_q4, normalize))
+export_exp_q4 = as.tibble(sapply(data_exp_q4, normalize))
 colnames(export_exp_q4) = colnames(data_exp_q4)
 
 # Expenditure quintile 5 --------------------------------------------------------------------------
@@ -499,7 +499,7 @@ colnames(data_exp_q5) <- data_exp_q5 %>%
   colnames() %>% 
   str_replace_all(c("Expenditure.Quintile.5.20" = "Exp5th"))
 
-export_exp_q5 = as.data.frame(sapply(data_exp_q5, normalize))
+export_exp_q5 = as.tibble(sapply(data_exp_q5, normalize))
 colnames(export_exp_q5) = colnames(data_exp_q5)
 
 # EXTREME WEATHERS --------------------------------------------------------------------------------
@@ -516,23 +516,23 @@ data_climate[-1] <- sapply(data_climate[-1], normalize)
 # Average no. of hazards during 27 years (from 1989 - 2015)
 data_climate[1] <- round(data_climate[1] / 27, 3)
 
-export_climate <- data.frame(NoHazards = data_climate$Hazard,
-                             VulIndex = rowMeans(data_climate[-1]))
+export_climate <- tibble(NoHazards = data_climate$Hazard,
+                         VulIndex = rowMeans(data_climate[-1]))
 
 # EXPORT DATA -------------------------------------------------------------------------------------
 
 # Add id and order taken from ArcGIS output
-export_id = data.frame(ID = c(4, 0, 3, 9, 12, 14, 6, 15, 16, 1, 2, 11, 8, 10, 13, 5, 7))
+export_id = tibble(ID = c(4, 0, 3, 9, 12, 14, 6, 15, 16, 1, 2, 11, 8, 10, 13, 5, 7))
 
 # Combine all data except distance at the end, after sorting by ID
-export_data <- cbind(export_id, export_province, export_pop_2004, export_pop_natural_rate,
-                     export_employment, export_poverty, export_education, export_health,
-                     export_inc_q1, export_inc_q2, export_inc_q3, export_inc_q4, export_inc_q5,
-                     export_exp_q1, export_exp_q2, export_exp_q3, export_exp_q4, export_exp_q5,
-                     export_climate) %>% 
+export_data <- bind_cols(export_id, export_province, export_pop_2004, export_pop_natural_rate,
+                         export_employment, export_poverty, export_education, export_health,
+                         export_inc_q1, export_inc_q2, export_inc_q3, export_inc_q4, export_inc_q5,
+                         export_exp_q1, export_exp_q2, export_exp_q3, export_exp_q4, export_exp_q5,
+                         export_climate) %>% 
   arrange(ID) %>% 
   # ID = c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
-  cbind(export_distance) %>% 
+  bind_cols(export_distance) %>% 
   select(-"ID")
 
 library(WriteXLS)
