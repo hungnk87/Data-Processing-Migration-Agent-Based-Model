@@ -47,33 +47,6 @@ data_pop_natural_rate %<>%
 export_pop_natural_rate <- as.data.frame(data_pop_natural_rate)
 export_pop_natural_rate[c(1:4),] = 0
 
-
-# In-, Out-, Net-Migration rate (per thousand) ----------------------------------------------------
-data_migration <- read_delim("E02.21-23.csv", delim = ";", skip = 2)
-data_migration[1] = NULL
-
-# Update attribute names
-colnames(data_migration) <- data_migration %>% 
-  colnames() %>% 
-  str_replace_all(c("Prel. " = "", " " = "", "-migrationrate20" = "Rate"))
-# Divide names example 
-# names[str_detect(names, "In")]
-
-# Divide into seperate in-, out-, net- migration and update relevant names
-data_migration_in_rate <- data_migration %>% select(starts_with("In"))
-data_migration_out_rate <- data_migration %>% select(starts_with("Out"))
-data_migration_net_rate <- data_migration %>% select(starts_with("Net"))
-
-data_migration_in_rate %<>% 
-  mutate(InRate06 = (InRate05 + InRate07)/2) %>% 
-  select(order(colnames(.)))
-data_migration_out_rate %<>% 
-  mutate(OutRate06 = (OutRate05 + OutRate07)/2) %>% 
-  select(order(colnames(.)))
-data_migration_net_rate %<>% 
-  mutate(NetRate06 = (NetRate05 + NetRate07)/2) %>% 
-  select(order(colnames(.)))
-
 # SOCIO-ECONOMIC DATA -----------------------------------------------------------------------------
 
 # Functions to normalize and reverse normalize data in range (0,1) --------------------------------
