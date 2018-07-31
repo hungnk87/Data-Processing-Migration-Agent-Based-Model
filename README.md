@@ -1,4 +1,12 @@
-# GSO-Data-Input-Migration-Model
+Data were downloaded from 
+* General Statistics Office (GSO) of Vietnam 
+* Vietnam Household Living Standards Survey (VHLSS)
+* Vietnam provincial-level map (read and extracted from ArcGIS)
+* Inventar 
+
+Data were formatted (though not in a "conventionally tidy" format) to feed back into ArcGis, before being exported into shapefile format, then read by the Migration Agent-Based Model. 
+
+# GSO Data
 
 Certain demographics and socio-economic data downloaded from General Statistics Office (GSO) of Vietnam have been used to implement an Agent-based modelling of internal migration in the Mekong Delta (MKD) region. Data of each province (provincial level) in annual time-series format from 2005 to 2016 was downloaded:  
 
@@ -23,7 +31,7 @@ Certain demographics and socio-economic data downloaded from General Statistics 
 Relevant Data (Bi-Yearly) of average income and expense by income quintile and by province was recorded from VHLSS data from 2006 to 2016
 
 * Monthly average income per capita at current prices by income quintile
-* Monthly expenditure per capita at current prices by income quintile (adapted to spatial cost of living index)
+* Monthly expenditure per capita at current prices by income quintile (adapted to spatial cost of living index). Pre-processing data was saved in *raw_expenditure.csv* file
   
 # Distance data 
 
