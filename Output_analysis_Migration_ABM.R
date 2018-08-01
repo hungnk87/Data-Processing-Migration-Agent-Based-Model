@@ -31,8 +31,8 @@ out_data <- data_migration %>%
   mutate(OutRate06 = (OutRate05 + OutRate07)/2) %>% 
   select(order(colnames(.)))
 out_data %<>% mutate(Avg05_10 = round(rowMeans(out_data %>% select(c(OutRate05:OutRate10))),3), 
-                    Avg11_16 = round(rowMeans(out_data %>% select(c(OutRate11:OutRate16))),3), 
-                    Avg05_16 = round(rowMeans(out_data %>% select(c(OutRate05:OutRate16))),3)) %>% 
+                     Avg11_16 = round(rowMeans(out_data %>% select(c(OutRate11:OutRate16))),3), 
+                     Avg05_16 = round(rowMeans(out_data %>% select(c(OutRate05:OutRate16))),3)) %>% 
   select(-starts_with("Out"))
 out_data <- out_data[-c(1:4), ]
 
@@ -41,10 +41,15 @@ net_data <- data_migration %>%
   mutate(NetRate06 = (NetRate05 + NetRate07)/2) %>% 
   select(order(colnames(.)))
 net_data %<>% mutate(Avg05_10 = round(rowMeans(net_data %>% select(c(NetRate05:NetRate10))),3), 
-                    Avg11_16 = round(rowMeans(net_data %>% select(c(NetRate11:NetRate16))),3), 
-                    Avg05_16 = round(rowMeans(net_data %>% select(c(NetRate05:NetRate16))),3)) %>% 
+                     Avg11_16 = round(rowMeans(net_data %>% select(c(NetRate11:NetRate16))),3), 
+                     Avg05_16 = round(rowMeans(net_data %>% select(c(NetRate05:NetRate16))),3)) %>% 
   select(-starts_with("Net"))
 net_data <- net_data[-c(1:4), ]
+
+# Sort alphabetically by Province 
+in_data %<>% arrange(Province)
+out_data %<>% arrange(Province)
+net_data %<>% arrange(Province)
 
 # Quick Plot --------------------------------------------------------------------------------------
 net_data %>% 
@@ -128,30 +133,42 @@ for (k in 1: (nrow(data) / 144)){
   colnames(out_sim) <- out_name
   colnames(net_sim) <- net_name
   
-  # Remove 4 provinces in SE region & calculate the average of migration flows
+  # Remove 4 provinces in SE region 
+  # Sort alphabetically by Province name 
+  # Calculate the Averages, Diff and Abs_Diff
+  # Remove yearly migration data column
   in_sim %<>% mutate(Province = provinces) %>% 
     filter(Province != "Dong Nai" & Province != "Vung Tau" &
-             Province != "Binh Duong" & Province != "Ho Chi Minh city")
+             Province != "Binh Duong" & Province != "Ho Chi Minh city") %>% 
+    arrange(Province)
   in_sim %<>% mutate(Avg05_10 = round(rowMeans(in_sim %>% select(c(In05:In10))),3),
                      Avg11_16 = round(rowMeans(in_sim %>% select(c(In11:In16))),3),
-                     Avg05_16 = round(rowMeans(in_sim %>% select(c(In05:In16))),3)) %>% 
-    select(Province, starts_with("Avg"))
+                     Avg05_16 = round(rowMeans(in_sim %>% select(c(In05:In16))),3),
+                     Diff = in_data$Avg05_16 - Avg05_16, 
+                     Abs_Diff = abs(Diff)) %>% 
+    select(-starts_with("In"))
   
   out_sim %<>% mutate(Province = provinces) %>% 
     filter(Province != "Dong Nai" & Province != "Vung Tau" &
-             Province != "Binh Duong" & Province != "Ho Chi Minh city")
+             Province != "Binh Duong" & Province != "Ho Chi Minh city") %>% 
+    arrange(Province)
   out_sim %<>% mutate(Avg05_10 = round(rowMeans(out_sim %>% select(c(Out05:Out10))),3),
                       Avg11_16 = round(rowMeans(out_sim %>% select(c(Out11:Out16))),3),
-                      Avg05_16 = round(rowMeans(out_sim %>% select(c(Out05:Out16))),3)) %>% 
-    select(Province, starts_with("Avg"))
+                      Avg05_16 = round(rowMeans(out_sim %>% select(c(Out05:Out16))),3),
+                      Diff = out_data$Avg05_16 - Avg05_16, 
+                      Abs_Diff = abs(Diff)) %>% 
+    select(-starts_with("Out"))
   
   net_sim %<>% mutate(Province = provinces) %>% 
     filter(Province != "Dong Nai" & Province != "Vung Tau" &
-             Province != "Binh Duong" & Province != "Ho Chi Minh city")
+             Province != "Binh Duong" & Province != "Ho Chi Minh city") %>% 
+    arrange(Province)
   net_sim %<>% mutate(Avg05_10 = round(rowMeans(net_sim %>% select(c(Net05:Net10))),3),
                       Avg11_16 = round(rowMeans(net_sim %>% select(c(Net11:Net16))),3),
-                      Avg05_16 = round(rowMeans(net_sim %>% select(c(Net05:Net16))),3)) %>% 
-    select(Province, starts_with("Avg"))
+                      Avg05_16 = round(rowMeans(net_sim %>% select(c(Net05:Net16))),3),
+                      Diff = net_data$Avg05_16 - Avg05_16, 
+                      Abs_Diff = abs(Diff)) %>% 
+    select(-starts_with("Net"))
   
   # Add to the final tibbles _result (Remove Province column)
   if (k == 1) in_result = in_sim[-1]
@@ -170,14 +187,17 @@ net_result = bind_cols(Province = net_sim$Province, net_result)
 nameResult = c()
 nameResult[1] = "Province"
 for (k in 1:(nrow(data) / 144)){
-  index = (k - 1) * 3
+  index = (k - 1) * 5 # 5 columns
   nameResult[1 + index + 1] = paste("Exp", k, "05_10", sep = "_") 
   nameResult[1 + index + 2] = paste("Exp", k, "11_16", sep = "_") 
-  nameResult[1 + index + 3] = paste("Exp", k, "05_16", sep = "_") 
+  nameResult[1 + index + 3] = paste("Exp", k, "05_16", sep = "_")
+  nameResult[1 + index + 4] = paste("Exp", k, "Diff", sep = "_")
+  nameResult[1 + index + 5] = paste("Exp", k, "Abs_Diff", sep = "_")
+  
+  # Update the sum of Abs_Diff in net_result (Add the result to 15th row)
+  net_result[15, 1 + index + 5] = sum(net_result[, 1 + index + 5], na.rm = TRUE)
 }
 colnames(in_result) = colnames(out_result) = colnames(net_result) = nameResult
 
 library(WriteXLS)
 WriteXLS(net_result, "result.xls")
-
-
