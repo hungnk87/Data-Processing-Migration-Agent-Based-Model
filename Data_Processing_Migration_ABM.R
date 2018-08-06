@@ -2,7 +2,6 @@ library(tidyverse)
 library(magrittr)
 
 remove(list=ls())
-setwd("/Users/hungnguyenkhanh/Downloads/ABM Migration Data")
 
 # DEMOGRAPHICS DATA -------------------------------------------------------------------------------
 
