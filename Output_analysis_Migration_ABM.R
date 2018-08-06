@@ -3,9 +3,6 @@ library(magrittr)
 
 remove(list=ls())
 
-setwd("/Users/hungnguyenkhanh/Desktop/Model/ABMMigration/logs")
-# setwd("C:/Users/c3242928/Desktop/CCIM/logs")
-
 # MIGRATION DATA FROM GSO -------------------------------------------------------------------------
 
 data_migration <- read_delim("E02.21-23.csv", delim = ";", skip = 2)
